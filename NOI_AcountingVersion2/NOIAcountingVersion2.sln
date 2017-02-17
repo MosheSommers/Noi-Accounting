@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOI_AcountingVersion2", "NOI_AcountingVersion2\NOI_AcountingVersion2.csproj", "{1A19D62A-2BCA-4FE1-8433-C668B53A24F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOIAcountingVersion2", "NOI_AcountingVersion2\NOIAcountingVersion2.csproj", "{1A19D62A-2BCA-4FE1-8433-C668B53A24F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOI_AcountingVersion2Tests", "NOI_AcountingVersion2Tests\NOI_AcountingVersion2Tests.csproj", "{A797D56F-D488-4C10-BA04-62233CF50CC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOIAcountingVersion2Tests", "NOI_AcountingVersion2Tests\NOIAcountingVersion2Tests.csproj", "{A797D56F-D488-4C10-BA04-62233CF50CC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

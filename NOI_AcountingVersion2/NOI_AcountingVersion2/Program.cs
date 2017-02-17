@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NOI_AcountingVersion2
+namespace NOIAcountingVersion2
 {
     class Program
     {

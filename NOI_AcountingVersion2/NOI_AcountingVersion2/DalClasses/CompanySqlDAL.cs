@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
-using NOI_AcountingVersion2.Model_Classes;
+using NOIAcountingVersion2.ModelClasses;
 
-namespace NOI_AcountingVersion2.DalClasses
+namespace NOIAcountingVersion2.DalClasses
 {
     public class CompanySqlDAL
     {

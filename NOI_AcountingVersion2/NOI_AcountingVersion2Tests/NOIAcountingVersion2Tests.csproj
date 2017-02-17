@@ -54,12 +54,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DalClasses\CompanySqlDALTests.cs" />
+    <Compile Include="DalClasses\TransactionSqlDALTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NOI_AcountingVersion2\NOI_AcountingVersion2.csproj">
+    <ProjectReference Include="..\NOI_AcountingVersion2\NOIAcountingVersion2.csproj">
       <Project>{1A19D62A-2BCA-4FE1-8433-C668B53A24F3}</Project>
-      <Name>NOI_AcountingVersion2</Name>
+      <Name>NOIAcountingVersion2</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NOI_AcountingVersion2.DalClasses;
+using NOIAcountingVersion2.DalClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using System.Data.SqlClient;
-using NOI_AcountingVersion2.Model_Classes;
+using NOIAcountingVersion2.ModelClasses;
 
-namespace NOI_AcountingVersion2.DalClasses.Tests
+namespace NOIAcountingVersion2.DalClasses.Tests
 {
     [TestClass()]
     public class CompanySqlDALTests
