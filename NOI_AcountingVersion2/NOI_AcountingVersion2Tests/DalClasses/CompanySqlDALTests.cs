@@ -26,6 +26,8 @@ namespace NOI_AcountingVersion2.DalClasses.Tests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+                SqlCommand command = new SqlCommand("insert into company values(10, 'Temporary Company')", connection);
+                command.ExecuteNonQuery();
             }
         }
 
@@ -36,7 +38,6 @@ namespace NOI_AcountingVersion2.DalClasses.Tests
         }
 
         [TestMethod()]
-        [ExpectedException(typeof(SqlException))]
         public void CreateNewCompanyTest()
         {
             CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
@@ -48,6 +49,21 @@ namespace NOI_AcountingVersion2.DalClasses.Tests
 
             bool addedComp = companyDal.CreateNewCompany(c);
             Assert.IsTrue(addedComp);
+        }
+
+        [TestMethod]
+        public void ChangeCompanyNameTest()
+        {
+            CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
+
+            Company c = new Company()
+            {
+                CompanyId = 10,
+                Name = "Permanent Company"
+            };
+            bool NameChanged = companyDal.ChangeCompanyName(c);
+
+            Assert.IsTrue(NameChanged);
         }
     }
 }

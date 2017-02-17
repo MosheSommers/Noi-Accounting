@@ -47,31 +47,42 @@ namespace NOI_AcountingVersion2.DalClasses
             catch(Exception e)
             {
                 Console.WriteLine(e);
-                Console.WriteLine("Sorry something went wrong please try again later");
+                Console.WriteLine("Sorry something went wrong please try again later.");
                 throw;
             }
         }
 
-        //public bool ChangeName(Company c)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection connection = new SqlConnection(connectionString))
-        //        {
-        //            connection.Open();
-        //            SqlCommand command = new SqlCommand(sql_updateCompanyName, connection);
-        //            command.Parameters.AddWithValue("@companyId", c.CompanyId);
-        //            command.Parameters.AddWithValue("@name", c.Name);
+        //Method to change your company's name takes in a company object 
+        //that consists of the company id and the new name
 
-        //            int rowsAffected = command.ExecuteNonQuery();
+        public bool ChangeCompanyName(Company c)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sql_updateCompanyName, connection);
+                    command.Parameters.AddWithValue("@companyId", c.CompanyId);
+                    command.Parameters.AddWithValue("@name", c.Name);
 
-        //            return (rowsAffected == 1);
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    return (rowsAffected == 1);
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry can't connect to the database please try again later.");
+                throw;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry something went wrong please try again later.");
+                throw;
+            }
+        }
     }
 }
