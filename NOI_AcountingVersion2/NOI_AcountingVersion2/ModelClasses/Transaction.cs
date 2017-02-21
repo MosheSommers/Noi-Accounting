@@ -10,7 +10,7 @@ namespace NOIAcountingVersion2.ModelClasses
     {
         public int TransactionId { get; set; }
         public bool IsRevenue { get; set; }
-        public string Name { get; set; }
+        public string Description { get; set; }
         public double Amount { get; set; }
         public DateTime Date { get; set; }
         public int CompanyId { get; set; }

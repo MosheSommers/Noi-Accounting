@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using NOIAcountingVersion2.ModelClasses;
 using System.Transactions;
 
 namespace NOIAcountingVersion2.DalClasses.Tests
@@ -14,15 +15,23 @@ namespace NOIAcountingVersion2.DalClasses.Tests
     public class TransactionSqlDALTests
     {
         TransactionScope tran;
+       
         private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=NOI Accounting;" +
             "User ID=te_student;Password=sqlserver1";
+
 
         [TestMethod]
         [TestInitialize]
         public void Initialize()
         {
             tran = new TransactionScope();
+
+
+            ModelClasses.Transaction t = new ModelClasses.Transaction();
+            t = CreateTestTransaction();
         }
+
+        
 
         [TestMethod]
         [TestCleanup]
@@ -34,6 +43,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         [TestMethod()]
         public void CreateTransactionTest()
         {
+
             Assert.Fail();
         }
 
@@ -65,6 +75,21 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         public void GetRevenueForTimePeriodTest()
         {
             Assert.Fail();
+        }
+
+        //HelperMethod to create transaction
+        private ModelClasses.Transaction CreateTestTransaction()
+        {
+            ModelClasses.Transaction t = new ModelClasses.Transaction()
+            {
+                IsRevenue = false,
+                Description = "Rent",
+                Amount = 1005.24,
+                Date = DateTime.Now,
+                CompanyId = 1234567
+            };
+
+            return t;
         }
     }
 }
