@@ -5,6 +5,7 @@
 create table company(
 	company_id int identity(1, 1),
 	name varchar(60) not null,
+	password char(8) not null,
 
 	constraint pk_company_company_id primary key (company_id)
 );
@@ -32,3 +33,4 @@ create table my_transaction(
 	constraint fk_my_transaction_company foreign key(company_id) references company(company_id),
 	constraint fk_my_transaction_user_info foreign key (user_id) references user_info(user_id)
 	);
+	

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using NOIAcountingVersion2.ModelClasses;
+using NOIAcountingVersion2.DalClasses;
 
 namespace NOIAcountingVersion2.DalClasses
 {
-    public class CompanySqlDAL
+    public class CompanySqlDAL : ICompanyDAL
     {
         private string connectionString;
         private const string sql_insertCompany = "insert into company values(@companyId, @name)";

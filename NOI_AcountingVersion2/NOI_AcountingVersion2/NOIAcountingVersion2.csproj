@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalClasses\CompanySqlDAL.cs" />
+    <Compile Include="DalClasses\ICompanyDal.cs" />
     <Compile Include="DalClasses\TransactionSqlDAL.cs" />
     <Compile Include="ModelClasses\Company.cs" />
     <Compile Include="ModelClasses\Transaction.cs" />
