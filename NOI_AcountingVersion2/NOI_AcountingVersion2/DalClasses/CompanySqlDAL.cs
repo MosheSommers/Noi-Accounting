@@ -12,7 +12,7 @@ namespace NOIAcountingVersion2.DalClasses
     public class CompanySqlDAL : ICompanyDAL
     {
         private string connectionString;
-        private const string sql_insertCompany = "insert into company values(@companyId, @name)";
+        private const string sql_insertCompany = "insert into company values(@name, @password)";
         private const string sql_updateCompanyName = "update company set name = @name where company_id = @companyId";
 
         public CompanySqlDAL(string databaseConnectionString)
@@ -28,9 +28,9 @@ namespace NOIAcountingVersion2.DalClasses
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand(sql_insertCompany, connection);
-                    command.Parameters.AddWithValue("@companyId", c.CompanyId);
+                    SqlCommand command = new SqlCommand(sql_insertCompany, connection);                   
                     command.Parameters.AddWithValue("@name", c.Name);
+                    command.Parameters.AddWithValue("@password", c.Password);
                     int rowsAffected = command.ExecuteNonQuery();
 
                     //returns true if one row was affected

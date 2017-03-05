@@ -10,5 +10,6 @@ namespace NOIAcountingVersion2.ModelClasses
     {
         public int CompanyId { get; set; }
         public string Name { get; set; }
+        public string Password { get; set; }
     }
 }
