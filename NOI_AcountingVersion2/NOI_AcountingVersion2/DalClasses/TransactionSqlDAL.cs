@@ -11,10 +11,12 @@ namespace NOIAcountingVersion2.DalClasses
 {
     public class TransactionSqlDAL : ITransactionDAL
     {
-        private const string insertTransactionQuery = "insert into transaction values(@transactionType, @transactionName, @amount, @date, @companyId, @userId)";
-        private const string allTransactionsQuery = "select * from transaction where company_id = @companyId";
-        private const string expensesQuery = "select from transaction where comapany_id = @companyId and transaction_type = false";
-        private const string revenueQuery = "select from transaction where comapany_id = @companyId and transaction_type = true";
+        private const string InsertTransactionQuery = "insert into transaction values(@transactionType, @transactionName, @amount, @date, @companyId, @userId)";
+        private const string AllTransactionsQuery = "select * from transaction where company_id = @companyId";
+        private const string ExpensesQuery = "select * from transaction where comapany_id = @companyId and transaction_type = false";
+        private const string RevenueQuery = "select * from transaction where comapany_id = @companyId and transaction_type = true";
+        //private const string AllTrasactiosnQuery = "select from transaction where company_id = "
+
         private string connectionString;
         public TransactionSqlDAL(string databaseConnectionString)
         {
@@ -29,7 +31,7 @@ namespace NOIAcountingVersion2.DalClasses
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    SqlCommand command = new SqlCommand(insertTransactionQuery, connection);
+                    SqlCommand command = new SqlCommand(InsertTransactionQuery, connection);
                     command.Parameters.AddWithValue("@transactionType", t.IsRevenue);
                     command.Parameters.AddWithValue("@transactionName", t.Description);
                     command.Parameters.AddWithValue("@amount", t.Amount);
@@ -58,17 +60,47 @@ namespace NOIAcountingVersion2.DalClasses
 
         public List<Transaction> GetCompanyTransactions(User u)
         {
-               return GetTransactions(u, allTransactionsQuery);
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    List<Transaction> trans = new List<Transaction>();
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(AllTransactionsQuery, connection);
+                    command.Parameters.AddWithValue("@companyId", u.CompanyId);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Transaction t = new Transaction();
+                        t.Amount = Convert.ToDouble(reader["amount"]);
+                        t.CompanyId = Convert.ToInt32(reader["company_id"]);
+                        t.Date = Convert.ToDateTime(reader["date"]);
+                        t.Description = Convert.ToString(reader["transaction_name"]);
+                        t.IsRevenue = Convert.ToBoolean(reader["transaction_type"]);
+                        t.TransactionId = Convert.ToInt32(reader["transaction_id"]);
+                        t.UserId = Convert.ToInt32(reader["user_id"]);
+
+                        trans.Add(t);
+                    }
+                    return trans;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
        
         public List<Transaction> GetCompanyExpenses(User u)
         {
-            return GetTransactions(u, expensesQuery);
+            return GetTransactions(u, ExpensesQuery);
         }
 
         public List<Transaction> GetCompanyRevenue(User u)
         {
-            return GetTransactions(u, revenueQuery);
+            return GetTransactions(u, RevenueQuery);
         }
 
         public List<Transaction> GetExpensesForTimePeriod(User u)
