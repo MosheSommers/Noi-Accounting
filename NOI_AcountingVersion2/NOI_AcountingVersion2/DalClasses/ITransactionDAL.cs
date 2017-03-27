@@ -13,8 +13,8 @@ namespace NOIAcountingVersion2.DalClasses
 
         List<Transaction> GetCompanyRevenue(User u);
 
-        List<Transaction> GetExpensesForTimePeriod(User u);
+        List<Transaction> GetExpensesForTimePeriod(User u, TimePeriod t);
 
-        List<Transaction> GetRevenueForTimePeriod(User u);
+        List<Transaction> GetRevenueForTimePeriod(User u, TimePeriod t);
     }
 }

@@ -17,7 +17,6 @@ namespace NOIAcountingVersion2.DalClasses
         private const string RevenueQuery = "select * from my_transaction where comapany_id = @companyId and transaction_type = true";
         private const string ExepensesForTimePeriodQuery = "select * from my_transaction where date >= @start and date <= @end and transaction_type = false and company_id = @companyId";
         private const string RevenueForTimePeriodQuery = "select * from my_transaction where date >= @start and date <= @end and transaction_type = true and company_id = @companyId";
-        //private const string AllTrasactiosnQuery = "select from transaction where company_id = "
 
         private string connectionString;
         public TransactionSqlDAL(string databaseConnectionString)
@@ -133,6 +132,7 @@ namespace NOIAcountingVersion2.DalClasses
 
         }
 
+        //Helper method to get transactions for a specific time period
         private List<Transaction> GetTransactionsForTimePeriod(User u, TimePeriod t, string query)
         {
             try
@@ -167,9 +167,16 @@ namespace NOIAcountingVersion2.DalClasses
                 }
 
             }
-            catch (Exception)
+            catch (SqlException e)
             {
-
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry can't connect to the database please try again later.");
+                throw;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry something went wrong please try again later.");
                 throw;
             }
         }

@@ -15,6 +15,10 @@ namespace NOIAcountingVersion2.DalClasses.Tests
     public class TransactionSqlDALTests
     {
         TransactionScope tran;
+        Company c; 
+        ModelClasses.Transaction t;
+
+
        
         private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=NOI Accounting;" +
             "User ID=te_student;Password=sqlserver1";
@@ -24,10 +28,10 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         [TestInitialize]
         public void Initialize()
         {
+         
             tran = new TransactionScope();
 
-
-            ModelClasses.Transaction t = new ModelClasses.Transaction();
+            c = CreateCompany();
             t = CreateTestTransaction();
         }
 
@@ -43,8 +47,10 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         [TestMethod()]
         public void CreateTransactionTest()
         {
+            TransactionSqlDAL dal = new TransactionSqlDAL(connectionString);
 
-            Assert.Fail();
+            bool created = dal.CreateTransaction(t);
+            Assert.IsTrue(created);
         }
 
         [TestMethod()]
@@ -76,7 +82,30 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         {
             Assert.Fail();
         }
+        //Helper Method to create company
+        private Company CreateCompany()
+        {
+            Company c = new Company()
+            {
+                Name = "testCompany",
+                Password = "testPassword"               
+            };
 
+            return c;
+        }
+
+        //Helper Method to create user
+        private User CreateUser(Company c)
+        {
+            User u = new User()
+            {
+                Name = "testUser",
+                Password = "testUserPassword",
+                CompanyId = c.CompanyId
+            };
+
+            return u;
+        }
         //HelperMethod to create transaction
         private ModelClasses.Transaction CreateTestTransaction()
         {
