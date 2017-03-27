@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="DalClasses\CompanySqlDALTests.cs" />
     <Compile Include="DalClasses\TransactionSqlDALTests.cs" />
+    <Compile Include="DalClasses\UserSqlDalTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
