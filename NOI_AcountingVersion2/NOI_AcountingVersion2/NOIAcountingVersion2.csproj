@@ -48,6 +48,7 @@
     <Compile Include="DalClasses\ITransactionDAL.cs" />
     <Compile Include="DalClasses\TransactionSqlDAL.cs" />
     <Compile Include="ModelClasses\Company.cs" />
+    <Compile Include="ModelClasses\TimePeriod.cs" />
     <Compile Include="ModelClasses\Transaction.cs" />
     <Compile Include="ModelClasses\User.cs" />
     <Compile Include="Program.cs" />
