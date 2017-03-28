@@ -13,7 +13,8 @@ namespace NOIAcountingVersion2.DalClasses
     {
         private string connectionString;
         private const string InsertCompanyQuery = "insert into company values(@name, @password)";
-        private const string UpdateCompanyNameQuery = "update company set name = @name where company_id = @companyId";
+        private const string UpdateCompanyNameQuery = "update company set name = @name where password = @password";
+        private const string UpdateCompanyPasswordQuery = "update company set password = @newPassword where password = @password";
 
         public CompanySqlDAL(string databaseConnectionString)
         {
@@ -64,7 +65,7 @@ namespace NOIAcountingVersion2.DalClasses
                 {
                     connection.Open();
                     SqlCommand command = new SqlCommand(UpdateCompanyNameQuery, connection);
-                    command.Parameters.AddWithValue("@companyId", c.CompanyId);
+                    command.Parameters.AddWithValue("@password", c.Password);
                     command.Parameters.AddWithValue("@name", c.Name);
 
                     int rowsAffected = command.ExecuteNonQuery();
@@ -79,6 +80,36 @@ namespace NOIAcountingVersion2.DalClasses
                 throw;
             }
             catch(Exception e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry something went wrong please try again later.");
+                throw;
+            }
+        }
+
+        public bool ChangeCompanyPassword(Company c, string newPassword)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(UpdateCompanyPasswordQuery, connection);
+                    command.Parameters.AddWithValue("@password", c.Password);
+                    command.Parameters.AddWithValue("@newPassword", newPassword);
+
+                    int rowsAffected = command.ExecuteNonQuery();
+
+                    return (rowsAffected == 1);
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+                Console.WriteLine("Sorry can't connect to the database please try again later.");
+                throw;
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e);
                 Console.WriteLine("Sorry something went wrong please try again later.");
