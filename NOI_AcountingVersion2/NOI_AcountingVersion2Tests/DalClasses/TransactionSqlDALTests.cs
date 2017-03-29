@@ -15,29 +15,34 @@ namespace NOIAcountingVersion2.DalClasses.Tests
     public class TransactionSqlDALTests
     {
         TransactionScope tran;
-        Company c; 
+        Company c;
+        User u;
         ModelClasses.Transaction t;
 
 
        
         private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=NOI Accounting;" +
             "User ID=te_student;Password=sqlserver1";
-
-
-        [TestMethod]
+       
         [TestInitialize]
         public void Initialize()
-        {
-         
+        {       
             tran = new TransactionScope();
 
-            c = CreateCompany();
+            
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand("insert into company values('testCompany', 'companyP')", connection);
+                command.ExecuteNonQuery();
+                command = new SqlCommand("insert into user_info values('testUser', 'testUPas', (select company_id from company where company.password = 'companyP' and company.name = 'testCompany'))", connection);
+                command.ExecuteNonQuery();
+            }
+
+            u = CreateUser();
             t = CreateTestTransaction();
         }
 
-        
-
-        [TestMethod]
         [TestCleanup]
         public void Cleanup()
         {
@@ -49,14 +54,18 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         {
             TransactionSqlDAL dal = new TransactionSqlDAL(connectionString);
 
-            bool created = dal.CreateTransaction(t);
+            bool created = dal.CreateTransaction(t, u);
             Assert.IsTrue(created);
         }
 
         [TestMethod()]
         public void GetAllTransactiosTest()
         {
-            Assert.Fail();
+            TransactionSqlDAL dal = new TransactionSqlDAL(connectionString);
+
+            List<ModelClasses.Transaction> trans = dal.GetCompanyTransactions(u);
+
+            Assert.IsTrue(trans.Count > 0);
         }
 
         [TestMethod()]
@@ -95,13 +104,12 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         }
 
         //Helper Method to create user
-        private User CreateUser(Company c)
+        private User CreateUser()
         {
             User u = new User()
             {
                 Name = "testUser",
-                Password = "testUserPassword",
-                CompanyId = c.CompanyId
+                Password = "testUPas",
             };
 
             return u;
@@ -115,7 +123,6 @@ namespace NOIAcountingVersion2.DalClasses.Tests
                 Description = "Rent",
                 Amount = 1005.24,
                 Date = DateTime.Now,
-                CompanyId = 1234567
             };
 
             return t;

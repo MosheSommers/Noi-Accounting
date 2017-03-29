@@ -5,7 +5,7 @@ namespace NOIAcountingVersion2.DalClasses
 {
     public interface ITransactionDAL
     {
-        bool CreateTransaction(Transaction t);
+        bool CreateTransaction(Transaction t,  User u);
 
         List<Transaction> GetCompanyTransactions(User u);
 

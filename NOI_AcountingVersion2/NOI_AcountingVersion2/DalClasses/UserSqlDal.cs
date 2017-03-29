@@ -12,7 +12,7 @@ namespace NOIAcountingVersion2.DalClasses
     {
         private const string UpdateUserNameQuery = "update user_info set user_name = @name where password = @password";
         private const string UpdateUserPasswordQuery = "update user_info set password = @newPassword where password = @password";
-        private const string InsertUserQuery = "insert into user_info values(@username, @password, (select company_id from company where company.password = @companyPassword))";
+        private const string InsertUserQuery = "insert into user_info values(@username, @password, (select company_id from company where company.password = @companyPassword and company.name = @companyName))";
 
         private string connectionString;
         public UserSqlDal(String databaseConnectionString)
@@ -82,7 +82,7 @@ namespace NOIAcountingVersion2.DalClasses
             }
         }
 
-        public bool CreateNewUser(User u, string companyPassword)
+        public bool CreateNewUser(User u, Company c)
         {
             try
             {
@@ -93,7 +93,8 @@ namespace NOIAcountingVersion2.DalClasses
 
                     command.Parameters.AddWithValue("@userName", u.Name);
                     command.Parameters.AddWithValue("@password", u.Password);
-                    command.Parameters.AddWithValue("@companyPassword", companyPassword);
+                    command.Parameters.AddWithValue("@companyPassword", c.Password);
+                    command.Parameters.AddWithValue("@companyName", c.Name);
 
                     int rowsAffected = command.ExecuteNonQuery();
 

@@ -11,8 +11,12 @@ namespace NOIAcountingVersion2.DalClasses
 {
     public class TransactionSqlDAL : ITransactionDAL
     {
-        private const string InsertTransactionQuery = "insert into my_transaction values(@transactionType, @transactionName, @amount, @date, @companyId, @userId)";
-        private const string AllTransactionsQuery = "select * from my_transaction where company_id = @companyId";
+        //SQL queries
+        private const string InsertTransactionQuery = "insert into my_transaction values(@transactionType, @transactionName, @amount," +
+            " @date, (select company_id from user_info where user_name = @userName and password = @userPassword)," +
+            " (select user_id from user_info where user_name = @userName and password = @userPassword))";
+
+        private const string AllTransactionsQuery = "select * from my_transaction where company_id = (select user_info.company_id from user_info where user_name = @userName and password = @userPassword)";
         private const string ExpensesQuery = "select * from my_transaction where comapany_id = @companyId and transaction_type = false";
         private const string RevenueQuery = "select * from my_transaction where comapany_id = @companyId and transaction_type = true";
         private const string ExepensesForTimePeriodQuery = "select * from my_transaction where date >= @start and date <= @end and transaction_type = false and company_id = @companyId";
@@ -25,7 +29,7 @@ namespace NOIAcountingVersion2.DalClasses
         }
 
         //Stores transaction in database
-        public bool CreateTransaction(Transaction t)
+        public bool CreateTransaction(Transaction t, User u)
         {
             try
             {
@@ -37,8 +41,8 @@ namespace NOIAcountingVersion2.DalClasses
                     command.Parameters.AddWithValue("@transactionName", t.Description);
                     command.Parameters.AddWithValue("@amount", t.Amount);
                     command.Parameters.AddWithValue("@date", t.Date);
-                    command.Parameters.AddWithValue("@companyId", t.CompanyId);
-                    command.Parameters.AddWithValue("@userId", t.UserId);
+                    command.Parameters.AddWithValue("@userName", u.Name);
+                    command.Parameters.AddWithValue("@userPassword", u.Password);
 
                     int rowsAffected = command.ExecuteNonQuery();
 
@@ -97,7 +101,8 @@ namespace NOIAcountingVersion2.DalClasses
                     connection.Open();
                     SqlCommand command = new SqlCommand(query, connection);
 
-                    command.Parameters.AddWithValue("@companyId", u.CompanyId);
+                    command.Parameters.AddWithValue("@userName", u.Name);
+                    command.Parameters.AddWithValue("@userPassword", u.Password);
 
                     SqlDataReader reader = command.ExecuteReader();
 

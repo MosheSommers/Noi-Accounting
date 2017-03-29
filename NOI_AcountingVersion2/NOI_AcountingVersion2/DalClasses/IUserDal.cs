@@ -9,7 +9,7 @@ namespace NOIAcountingVersion2.DalClasses
 {
     public interface IUserDal
     {
-        bool CreateNewUser(User u, string companyPassword);
+        bool CreateNewUser(User u, Company c);
 
         bool ChangeUserName(User u);
     }

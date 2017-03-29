@@ -26,7 +26,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand("insert into company values(10, 'Temporary Company')", connection);
+                SqlCommand command = new SqlCommand("insert into company values('Temporary Company', '12345678')", connection);
                 command.ExecuteNonQuery();
             }
         }
@@ -43,7 +43,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
             CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
             Company c = new Company()
             {
-                CompanyId = 7,
+                Password = "87654321",
                 Name = "Hey"
             };
 
@@ -58,10 +58,24 @@ namespace NOIAcountingVersion2.DalClasses.Tests
 
             Company c = new Company()
             {
-                CompanyId = 10,
+                Password = "12345678",
                 Name = "Permanent Company"
             };
             bool NameChanged = companyDal.ChangeCompanyName(c);
+
+            Assert.IsTrue(NameChanged);
+        }
+
+        [TestMethod]
+        public void ChangeCompanyPasswordTest()
+        {
+            CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
+
+            Company c = new Company()
+            {
+                Password = "12345678",                
+            };
+            bool NameChanged = companyDal.ChangeCompanyPassword(c, "11111111");
 
             Assert.IsTrue(NameChanged);
         }
