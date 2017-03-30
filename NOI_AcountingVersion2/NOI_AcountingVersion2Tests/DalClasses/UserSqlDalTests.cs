@@ -44,12 +44,9 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         public void ChangeUserNameTest()
         {
             UserSqlDal userDal = new UserSqlDal(connectionString);
-            User u = new User()
-            {
-                Password = "12345678",
-                Name = "ChangedName"
-            };
-            bool changedname = userDal.ChangeUserName(u);
+            User u = new User() { Password = "12345678", Name = "temporary user" };
+
+            bool changedname = userDal.ChangeUserName(u, "changedName");
             Assert.IsTrue(changedname);
 
         }
@@ -58,10 +55,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         public void ChangeUserPasswordTest()
         {
             UserSqlDal userDal = new UserSqlDal(connectionString);
-            User u = new User()
-            {
-                Password = "12345678"
-            };
+            User u = new User() { Name = "temporary user", Password = "12345678" };
 
             bool changedPassword = userDal.ChangeUserPassword(u, "11111111");
             Assert.IsTrue(changedPassword);
@@ -72,34 +66,24 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         {
             UserSqlDal userDal = new UserSqlDal(connectionString);
 
-            User u = new User()
-            {
-                Name = "NewUser",
-                Password = "87654321",
-
-            };
-            Company c = new Company
-            {
-                Name = "temporaryComp",
-                Password = "companys"
-            };
-
+            User u = new User() { Name = "NewUser", Password = "87654321" };
+            Company c = new Company { Name = "temporaryComp", Password = "companys" };
             CreateCompany();
 
             bool createdUser = userDal.CreateNewUser(u, c);
             Assert.IsTrue(createdUser);
 
         }
+   
 
-        static string CreateCompany()
+        //Helper method to insert company to database
+        static void CreateCompany()
         {
             using (SqlConnection connection = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=NOI Accounting;User ID=te_student;Password=sqlserver1"))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand("insert into company values('temporaryComp', 'companys')", connection);
-
                 command.ExecuteNonQuery();
-                return "companys";
             }
         }
     }

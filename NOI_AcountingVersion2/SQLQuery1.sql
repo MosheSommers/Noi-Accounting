@@ -4,7 +4,7 @@
 
 create table company(
 	company_id int identity(1, 1),
-	name varchar(60) not null,
+	name varchar(60) not null unique,
 	password char(8) not null,
 
 	constraint pk_company_company_id primary key (company_id)
