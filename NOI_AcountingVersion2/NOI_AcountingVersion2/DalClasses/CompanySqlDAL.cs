@@ -13,8 +13,8 @@ namespace NOIAcountingVersion2.DalClasses
     {
         private string connectionString;
         private const string InsertCompanyQuery = "insert into company values(@name, @password)";
-        private const string UpdateCompanyNameQuery = "update company set name = @name where password = @password";
-        private const string UpdateCompanyPasswordQuery = "update company set password = @newPassword where password = @password";
+        private const string UpdateCompanyNameQuery = "update company set name = @newName where name = @name and password = @password";
+        private const string UpdateCompanyPasswordQuery = "update company set password = @newPassword where name = @name and password = @password";
 
         public CompanySqlDAL(string databaseConnectionString)
         {
@@ -55,9 +55,9 @@ namespace NOIAcountingVersion2.DalClasses
         }
 
         //Method to change your company's name takes in a company object 
-        //that consists of the company id and the new name
+        //that consists of the company id and name
 
-        public bool ChangeCompanyName(Company c)
+        public bool ChangeCompanyName(Company c, string newName)
         {
             try
             {
@@ -67,6 +67,7 @@ namespace NOIAcountingVersion2.DalClasses
                     SqlCommand command = new SqlCommand(UpdateCompanyNameQuery, connection);
                     command.Parameters.AddWithValue("@password", c.Password);
                     command.Parameters.AddWithValue("@name", c.Name);
+                    command.Parameters.AddWithValue("@newName", newName);
 
                     int rowsAffected = command.ExecuteNonQuery();
 
@@ -96,6 +97,7 @@ namespace NOIAcountingVersion2.DalClasses
                     connection.Open();
                     SqlCommand command = new SqlCommand(UpdateCompanyPasswordQuery, connection);
                     command.Parameters.AddWithValue("@password", c.Password);
+                    command.Parameters.AddWithValue("@name", c.Name);
                     command.Parameters.AddWithValue("@newPassword", newPassword);
 
                     int rowsAffected = command.ExecuteNonQuery();

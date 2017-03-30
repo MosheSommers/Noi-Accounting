@@ -41,11 +41,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         public void CreateNewCompanyTest()
         {
             CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
-            Company c = new Company()
-            {
-                Password = "87654321",
-                Name = "Hey"
-            };
+            Company c = new Company() { Password = "87654321", Name = "Hey" };
 
             bool addedComp = companyDal.CreateNewCompany(c);
             Assert.IsTrue(addedComp);
@@ -56,12 +52,8 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         {
             CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
 
-            Company c = new Company()
-            {
-                Password = "12345678",
-                Name = "Permanent Company"
-            };
-            bool NameChanged = companyDal.ChangeCompanyName(c);
+            Company c = new Company() { Password = "12345678", Name = "Temporary Company" };
+            bool NameChanged = companyDal.ChangeCompanyName(c, "Permanent Comp");
 
             Assert.IsTrue(NameChanged);
         }
@@ -71,10 +63,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         {
             CompanySqlDAL companyDal = new CompanySqlDAL(connectionString);
 
-            Company c = new Company()
-            {
-                Password = "12345678",                
-            };
+            Company c = new Company() { Name = "Temporary Company", Password = "12345678" };
             bool NameChanged = companyDal.ChangeCompanyPassword(c, "11111111");
 
             Assert.IsTrue(NameChanged);

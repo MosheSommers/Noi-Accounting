@@ -6,7 +6,8 @@ namespace NOIAcountingVersion2.DalClasses
     {
         bool CreateNewCompany(Company c);
 
-        bool ChangeCompanyName(Company c);
+        bool ChangeCompanyName(Company c, string newName);
 
+        bool ChangeCompanyPassword(Company c, string newPassword);
     }
 }
