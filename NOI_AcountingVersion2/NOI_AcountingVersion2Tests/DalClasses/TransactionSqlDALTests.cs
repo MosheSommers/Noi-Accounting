@@ -20,24 +20,30 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         ModelClasses.Transaction t;
 
 
-       
+
         private string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=NOI Accounting;" +
             "User ID=te_student;Password=sqlserver1";
-       
+
         [TestInitialize]
         public void Initialize()
-        {       
+        {
             tran = new TransactionScope();
 
-            
-            using(SqlConnection connection = new SqlConnection(connectionString))
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
+
                 SqlCommand command = new SqlCommand("insert into company values('testCompany', 'companyP')", connection);
                 command.ExecuteNonQuery();
+
                 command = new SqlCommand("insert into user_info values('testUser', 'testUPas', (select company_id from company where company.password = 'companyP' and company.name = 'testCompany'))", connection);
                 command.ExecuteNonQuery();
-                command = new SqlCommand("insert into my_transaction values(1, 'rent', 900, '10/12/2012', (select company_id from user_info where user_name = 'testUser' and password = 'testUPas'), (select user_id from user_info where user_name = 'testUser' and password = 'testUPas'))", connection);
+
+                command = new SqlCommand("insert into my_transaction values(1, 'revenue item', 900, '10/12/2012', (select company_id from user_info where user_name = 'testUser' and password = 'testUPas'), (select user_id from user_info where user_name = 'testUser' and password = 'testUPas'))", connection);
+                command.ExecuteNonQuery();
+
+                command = new SqlCommand("insert into my_transaction values(0, 'expense item', 900, '10/12/2012', (select company_id from user_info where user_name = 'testUser' and password = 'testUPas'), (select user_id from user_info where user_name = 'testUser' and password = 'testUPas'))", connection);
                 command.ExecuteNonQuery();
             }
 
@@ -73,7 +79,12 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         [TestMethod()]
         public void GetAllExpensesTest()
         {
-            Assert.Fail();
+            TransactionSqlDAL dal = new TransactionSqlDAL(connectionString);
+
+            List<ModelClasses.Transaction> trans = dal.GetCompanyExpenses(u);
+
+            Assert.IsTrue(trans.All(m => m.IsRevenue == false));
+            Assert.IsTrue(trans.Count > 0);
         }
 
         [TestMethod()]
@@ -96,11 +107,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         //Helper Method to create company
         private Company CreateCompany()
         {
-            Company c = new Company()
-            {
-                Name = "testCompany",
-                Password = "testPassword"               
-            };
+            Company c = new Company() { Name = "testCompany", Password = "testPassword" };
 
             return c;
         }
@@ -108,11 +115,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
         //Helper Method to create user
         private User CreateUser()
         {
-            User u = new User()
-            {
-                Name = "testUser",
-                Password = "testUPas",
-            };
+            User u = new User() { Name = "testUser", Password = "testUPas" };
 
             return u;
         }

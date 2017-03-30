@@ -17,7 +17,7 @@ namespace NOIAcountingVersion2.DalClasses
             " (select user_id from user_info where user_name = @userName and password = @userPassword))";
 
         private const string AllTransactionsQuery = "select * from my_transaction where company_id = (select user_info.company_id from user_info where user_name = @userName and password = @userPassword)";
-        private const string ExpensesQuery = "select * from my_transaction where comapany_id = @companyId and transaction_type = false";
+        private const string ExpensesQuery = "select * from my_transaction where company_id = (select user_info.company_id from user_info where user_name = @userName and password = @userPassword) and transaction_type = 0";
         private const string RevenueQuery = "select * from my_transaction where comapany_id = @companyId and transaction_type = true";
         private const string ExepensesForTimePeriodQuery = "select * from my_transaction where date >= @start and date <= @end and transaction_type = false and company_id = @companyId";
         private const string RevenueForTimePeriodQuery = "select * from my_transaction where date >= @start and date <= @end and transaction_type = true and company_id = @companyId";
