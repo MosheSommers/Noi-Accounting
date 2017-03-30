@@ -15,7 +15,7 @@ namespace NOIAcountingVersion2.DalClasses.Tests
     public class TransactionSqlDALTests
     {
         TransactionScope tran;
-        Company c;
+        //Company c;
         User u;
         ModelClasses.Transaction t;
 
@@ -36,6 +36,8 @@ namespace NOIAcountingVersion2.DalClasses.Tests
                 SqlCommand command = new SqlCommand("insert into company values('testCompany', 'companyP')", connection);
                 command.ExecuteNonQuery();
                 command = new SqlCommand("insert into user_info values('testUser', 'testUPas', (select company_id from company where company.password = 'companyP' and company.name = 'testCompany'))", connection);
+                command.ExecuteNonQuery();
+                command = new SqlCommand("insert into my_transaction values(1, 'rent', 900, '10/12/2012', (select company_id from user_info where user_name = 'testUser' and password = 'testUPas'), (select user_id from user_info where user_name = 'testUser' and password = 'testUPas'))", connection);
                 command.ExecuteNonQuery();
             }
 
