@@ -11,6 +11,6 @@ namespace NOIAcountingVersion2.DalClasses
     {
         bool CreateNewUser(User u, Company c);
 
-        bool ChangeUserName(User u);
+        bool ChangeUserName(User u, string newName);
     }
 }
